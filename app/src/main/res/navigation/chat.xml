@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/chat"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/chatListFragment">
+
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.mypet.www.ui.main.c_chat.ChatListFragment"
+        tools:layout="@layout/fragment_chat_list"
+        android:label="@string/cd_chat" />
+</navigation>

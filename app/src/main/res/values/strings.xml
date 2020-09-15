@@ -1,3 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyPet</string>
+    <string name="app_name">마이펫</string>
+    <string name="login" >로그인</string>
+    <string name="register">회원가입</string>
+    <string name="password">비밀번호</string>
+    <string name="email_address">이메일 주소</string>
+    <string name="password_check">비밀번호 확인</string>
+    <string name="cd_today_pet">오늘의 펫</string>
+    <string name="cd_search">둘러보기</string>
+    <string name="cd_chat">대화</string>
+    <string name="cd_me">내 정보</string>
+    <string name="today_detail">자세히</string>
+    <string name="join_date">가입한 날짜</string>
+    <string name="loading">로딩 중...</string>
+    <string name="my_likes">좋아요\n한 펫</string>
+    <string name="my_posts">내가\n작성한 글</string>
+    <string name="logout">로그아웃</string>
+
+
 </resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/my"
+    app:startDestination="@id/myPageFragment">
+
+    <fragment
+        android:id="@+id/myPageFragment"
+        android:name="com.mypet.www.ui.main.d_my.MyPageFragment"
+        tools:layout="@layout/fragment_my_page"
+        android:label="@string/cd_me" >
+        <action
+            android:id="@+id/action_myPageFragment_self"
+            app:destination="@id/myPageFragment" />
+    </fragment>
+</navigation>
