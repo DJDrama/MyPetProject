@@ -122,4 +122,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_my_cats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:srcCompat="@drawable/ic_baseline_pets" />
+
+    <TextView
+        android:id="@+id/tv_my_cats"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/my_cats"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/iv_my_cats"
+        app:layout_constraintStart_toStartOf="@+id/iv_my_cats"
+        app:layout_constraintTop_toBottomOf="@+id/iv_my_cats" />
 </androidx.constraintlayout.widget.ConstraintLayout>

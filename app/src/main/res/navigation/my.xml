@@ -10,7 +10,28 @@
         tools:layout="@layout/fragment_my_page"
         android:label="@string/cd_me" >
         <action
-            android:id="@+id/action_myPageFragment_self"
-            app:destination="@id/myPageFragment" />
+            android:id="@+id/action_myPageFragment_to_myPetsFragment"
+            app:destination="@id/myPetsFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_myLikesFragment"
+            app:destination="@id/myLikesFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_myCommentsFragment"
+            app:destination="@id/myCommentsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/myCommentsFragment"
+        android:name="com.mypet.www.ui.main.d_my.MyCommentsFragment"
+        tools:layout="@layout/fragment_my_comments"
+        android:label="MyCommentsFragment" />
+    <fragment
+        android:id="@+id/myLikesFragment"
+        android:name="com.mypet.www.ui.main.d_my.MyLikesFragment"
+        tools:layout="@layout/fragment_my_likes"
+        android:label="MyLikesFragment" />
+    <fragment
+        android:id="@+id/myPetsFragment"
+        android:name="com.mypet.www.ui.main.d_my.MyCatsFragment"
+        tools:layout="@layout/fragment_my_pets"
+        android:label="@string/my_cats" />
 </navigation>

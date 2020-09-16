@@ -51,6 +51,14 @@ class LoginFragment : Fragment(R.layout.fragment_login), View.OnClickListener {
     private fun login() {
         val email = edt_email.text.toString()
         val password = edt_password.text.toString()
+        if(email.isEmpty() || email.isBlank()){
+            Toast.makeText(requireContext(), "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if(password.isEmpty() || password.isBlank()){
+            Toast.makeText(requireContext(), "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

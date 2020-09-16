@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.mypet.www.R
 import com.mypet.www.ui.launcher.LauncherActivity
@@ -14,7 +15,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class MyPageFragment : Fragment(R.layout.fragment_my_page) {
+
+class MyPageFragment : Fragment(R.layout.fragment_my_page), View.OnClickListener {
     private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,9 +47,24 @@ class MyPageFragment : Fragment(R.layout.fragment_my_page) {
             builder.setNegativeButton(
                 "취소"
             ) { d, _ ->
-                d.dismiss()
             }
             builder.show()
+        }
+
+        // Buttons
+        // My Pets
+        iv_my_cats.setOnClickListener(this)
+        tv_my_cats.setOnClickListener(this)
+
+    }
+
+    override fun onClick(p0: View?) {
+        p0?.let{
+            when(it.id){
+                R.id.iv_my_cats, R.id.tv_my_cats->{
+                    it.findNavController().navigate(R.id.action_myPageFragment_to_myPetsFragment)
+                }
+            }
         }
     }
 }
