@@ -74,7 +74,7 @@ class ChatRecyclerViewAdapter : RecyclerView.Adapter<ChatRecyclerViewAdapter.Cha
 
     override fun getItemViewType(position: Int): Int {
         val chatItem = chatList[position]
-                (chatItem.writer==FirebaseAuth.getInstance().currentUser?.email))
+                (chatItem.writer==FirebaseAuth.getInstance().currentUser?.email)
         return if (chatItem.writer == FirebaseAuth.getInstance().currentUser?.email) {
             SEND
         } else {
