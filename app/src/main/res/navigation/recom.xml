@@ -8,5 +8,14 @@
         android:id="@+id/todayPetFragment"
         android:name="com.mypet.www.ui.main.a_recommend.RecomCatFragment"
         tools:layout="@layout/fragment_today_pet"
-        android:label="@string/cd_today_pet" />
+        android:label="@string/cd_today_pet" >
+        <action
+            android:id="@+id/action_todayPetFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.mypet.www.ui.main.c_chat.ChatRoomFragment"
+        tools:layout="@layout/activity_chat_room"
+        android:label="ChatRoomFragment" />
 </navigation>

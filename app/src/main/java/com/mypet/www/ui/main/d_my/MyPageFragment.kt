@@ -52,7 +52,10 @@ class MyPageFragment : Fragment(R.layout.fragment_my_page), View.OnClickListener
         }
 
         // Buttons
-        // My Pets
+        // My Likes
+        iv_my_likes.setOnClickListener(this)
+        tv_my_likes.setOnClickListener(this)
+        // My Cats
         iv_my_cats.setOnClickListener(this)
         tv_my_cats.setOnClickListener(this)
 
@@ -61,6 +64,9 @@ class MyPageFragment : Fragment(R.layout.fragment_my_page), View.OnClickListener
     override fun onClick(p0: View?) {
         p0?.let{
             when(it.id){
+                R.id.iv_my_likes, R.id.tv_my_likes->{
+                    it.findNavController().navigate(R.id.action_myPageFragment_to_myLikesFragment)
+                }
                 R.id.iv_my_cats, R.id.tv_my_cats->{
                     it.findNavController().navigate(R.id.action_myPageFragment_to_myPetsFragment)
                 }

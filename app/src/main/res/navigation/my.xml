@@ -23,12 +23,12 @@
         android:id="@+id/myCommentsFragment"
         android:name="com.mypet.www.ui.main.d_my.MyCommentsFragment"
         tools:layout="@layout/fragment_my_comments"
-        android:label="MyCommentsFragment" />
+        android:label="@string/my_posts" />
     <fragment
         android:id="@+id/myLikesFragment"
         android:name="com.mypet.www.ui.main.d_my.MyLikesFragment"
         tools:layout="@layout/fragment_my_likes"
-        android:label="MyLikesFragment" />
+        android:label="@string/my_likes" />
     <fragment
         android:id="@+id/myPetsFragment"
         android:name="com.mypet.www.ui.main.d_my.MyCatsFragment"

@@ -2,7 +2,6 @@ package com.mypet.www.ui.main.d_my
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -14,8 +13,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mypet.www.R
 import com.mypet.www.model.Cat
-import com.mypet.www.ui.launcher.LauncherActivity
 import com.mypet.www.ui.main.AddPetActivity
+import com.mypet.www.ui.main.c_chat.ChatRoomActivity
+import com.mypet.www.ui.main.d_my.recyclerview_adapter.CatItemClickListener
+import com.mypet.www.ui.main.d_my.recyclerview_adapter.CatRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_my_pets.*
 
 
@@ -39,7 +40,6 @@ class MyCatsFragment : Fragment(R.layout.fragment_my_pets), CatItemClickListener
     override fun onResume() {
         super.onResume()
         retrieveMyCats()
-
     }
 
     private fun retrieveMyCats() {
@@ -108,5 +108,9 @@ class MyCatsFragment : Fragment(R.layout.fragment_my_pets), CatItemClickListener
             d.dismiss()
         }
         builder.show()
+    }
+
+    override fun onChatClicked(email: String) {
+        //NOT APPLICABLE SINCE we can't chat with ourselves
     }
 }

@@ -1,6 +1,7 @@
 package com.mypet.www.ui.main.a_recommend
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -15,6 +16,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.mypet.www.R
 import com.mypet.www.model.Cat
 import com.mypet.www.model.Like
+import com.mypet.www.ui.main.c_chat.ChatRoomActivity
 import com.mypet.www.util.GlideApp
 import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.android.synthetic.main.fragment_today_pet.*
@@ -36,6 +38,8 @@ class RecomCatFragment : Fragment(R.layout.fragment_today_pet) {
         firebaseAuth = FirebaseAuth.getInstance()
 
         retrieveData()
+
+
 
 
     }
@@ -141,6 +145,14 @@ class RecomCatFragment : Fragment(R.layout.fragment_today_pet) {
                             ).show()
                         }
                 }
+
+
+            }
+
+            iv_chat.setOnClickListener{
+                val intent =Intent(requireContext(), ChatRoomActivity::class.java)
+                intent.putExtra("emailAddress", c.email)
+                startActivity(intent)
             }
         }
     }
