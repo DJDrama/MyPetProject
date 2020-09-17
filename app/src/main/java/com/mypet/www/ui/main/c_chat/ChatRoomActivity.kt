@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -22,6 +23,9 @@ class ChatRoomActivity : AppCompatActivity() {
     private lateinit var chatRecyclerViewAdapter: ChatRecyclerViewAdapter
     private var emailAddress: String? = null
     private var documentId: String? = null
+
+    private val viewModel: ChatListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_room)
@@ -44,7 +48,18 @@ class ChatRoomActivity : AppCompatActivity() {
 
         realtimeUpdates()
         initSendButton()
+        subscribeObservers()
 
+    }
+    private fun subscribeObservers(){
+        viewModel.isNewRoomNeeded.observe(this){
+            it?.let{b->
+                if(b){
+                    saveRoomSettingsToFirestore()
+                    //viewModel.setIsNewRoomNeeded(false)
+                }
+            }
+        }
     }
 
     private fun initSendButton() {
@@ -95,7 +110,6 @@ class ChatRoomActivity : AppCompatActivity() {
     }
 
     private fun checkPastData() {
-        var isNeedToMakeNewRoom = false
         firebaseFirestore.collection("chat")
             .whereEqualTo(
                 "users",
@@ -104,10 +118,38 @@ class ChatRoomActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener {
                 if (it.documents.isEmpty()) {
-                    // saveRoomSettingsToFirestore()
-                    isNeedToMakeNewRoom = true
+                    firebaseFirestore.collection("chat")
+                        .whereEqualTo(
+                            "users",
+                            listOf(FirebaseAuth.getInstance().currentUser?.email, emailAddress )
+                        )
+                        .get()
+                        .addOnSuccessListener {querySnapshot->
+                            if (querySnapshot.documents.isEmpty()) {
+                                // saveRoomSettingsToFirestore()
+                                //isNeedToMakeNewRoom = true
+                                if(viewModel.getIsNewRoomNeeded()==false) {
+                                    viewModel.setIsNewRoomNeeded(true)
+                                }
+                            } else {
+                                viewModel.setIsNewRoomNeeded(false)
+                                documentId = querySnapshot.documents[0].id
+                                firebaseFirestore.collection("chat")
+                                    .document(documentId!!).collection("messages")
+                                    .orderBy("date", Query.Direction.ASCENDING)
+                                    .get()
+                                    .addOnSuccessListener { qs ->
+                                        val chats = qs.toObjects(Chat::class.java)
+                                        chatRecyclerViewAdapter.submitList(chats)
+                                    }
+
+                                realtimeUpdates()
+                            }
+                        }.addOnFailureListener {
+                            Log.e("check", "Failed 2 " + it.message)
+                        }
                 } else {
-                    isNeedToMakeNewRoom=false
+                    viewModel.setIsNewRoomNeeded(false)
                     documentId = it.documents[0].id
                     firebaseFirestore.collection("chat")
                         .document(documentId!!).collection("messages")
@@ -121,38 +163,10 @@ class ChatRoomActivity : AppCompatActivity() {
 
                     realtimeUpdates()
                 }
+            }.addOnFailureListener {
+                Log.e("check", "Failed 1 " + it.message)
             }
 
-        firebaseFirestore.collection("chat")
-            .whereEqualTo(
-                "users",
-                listOf(FirebaseAuth.getInstance().currentUser?.email, emailAddress )
-            )
-            .get()
-            .addOnSuccessListener {
-                if (it.documents.isEmpty()) {
-                    // saveRoomSettingsToFirestore()
-                    isNeedToMakeNewRoom = true
-                } else {
-                    isNeedToMakeNewRoom=false
-                    documentId = it.documents[0].id
-                    firebaseFirestore.collection("chat")
-                        .document(documentId!!).collection("messages")
-                        .orderBy("date", Query.Direction.ASCENDING)
-                        .get()
-                        .addOnSuccessListener { qs ->
-                            val chats = qs.toObjects(Chat::class.java)
-                            chatRecyclerViewAdapter.submitList(chats)
-                        }
-
-                    realtimeUpdates()
-                }
-            }
-
-        if (isNeedToMakeNewRoom) {
-            saveRoomSettingsToFirestore()
-            isNeedToMakeNewRoom = false
-        }
     }
 
     private fun saveRoomSettingsToFirestore() {
@@ -168,6 +182,7 @@ class ChatRoomActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 //ERROR
+                Log.e("check", "failed : " + it.message)
             }
     }
 
