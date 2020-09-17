@@ -8,5 +8,22 @@
         android:id="@+id/searchFragment"
         android:name="com.mypet.www.ui.main.b_search.SearchFragment"
         tools:layout="@layout/fragment_search"
-        android:label="@string/cd_search" />
+        android:label="@string/cd_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_catDetailFragment"
+            app:destination="@id/catDetailFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/catDetailFragment"
+        tools:layout="@layout/fragment_cat_detail"
+        android:name="com.mypet.www.ui.main.b_search.CatDetailFragment"
+        android:label="@string/today_detail" />
+    <fragment
+        android:id="@+id/filterFragment"
+        tools:layout="@layout/fragment_filter"
+        android:name="com.mypet.www.ui.main.b_search.FilterFragment"
+        android:label="@string/filter" />
 </navigation>

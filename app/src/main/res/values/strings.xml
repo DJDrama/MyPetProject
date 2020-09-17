@@ -27,6 +27,8 @@
     <string name="upload">업로드</string>
     <string name="owner">주인</string>
     <string name="send">전송</string>
+    <string name="filter">필터</string>
+    <string name="submit">적용</string>
 
     <string-array name="genders">
         <item>수컷</item>

@@ -1,15 +1,12 @@
-package com.mypet.www.ui.main.a_recommend
+package com.mypet.www.ui.main.b_search
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -18,56 +15,30 @@ import com.mypet.www.model.Cat
 import com.mypet.www.model.Like
 import com.mypet.www.ui.main.c_chat.ChatRoomActivity
 import com.mypet.www.util.GlideApp
-import kotlinx.android.synthetic.main.activity_add_post.*
+import com.mypet.www.util.showToast
 import kotlinx.android.synthetic.main.fragment_today_pet.*
-import kotlinx.android.synthetic.main.fragment_today_pet.tv_gender
 import kotlinx.android.synthetic.main.fragment_today_pet.view.*
-import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.random.Random
 
-class RecomCatFragment : Fragment(R.layout.fragment_today_pet) {
+class CatDetailFragment: Fragment(R.layout.fragment_cat_detail){
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
+
+    private val catViewModel: CatViewModel by activityViewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
-        retrieveData()
+        subscribeObservers()
     }
-
-    private fun retrieveData() {
-        firebaseFirestore.collection("cats")
-            .get().addOnSuccessListener {
-                val list = mutableListOf<Cat>()
-                for(document in it.documents){
-                    val cat = document.toObject(Cat::class.java)
-                    cat?.documentId = document.id
-                    cat?.let{catItem->
-                        list.add(catItem)
-                    }
-                }
-                var randomNumber: Int
-                lifecycleScope.launch(Default) {
-                    while (true) {
-                        randomNumber = Random.nextInt(0, list.size)
-                        val uid = list[randomNumber].uid
-                        if (uid == firebaseAuth.currentUser?.uid) {
-                            continue
-                        } else {
-                            break
-                        }
-                    }
-                    withContext(Main) {
-                        setCatItem(list[randomNumber])
-                    }
-                }
+    private fun subscribeObservers(){
+        catViewModel.cat.observe(viewLifecycleOwner){
+            it?.let{cat->
+                setCatItem(cat)
             }
+        }
     }
-
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setCatItem(cat: Cat?) {
         cat?.let {c->
@@ -150,25 +121,6 @@ class RecomCatFragment : Fragment(R.layout.fragment_today_pet) {
                 startActivity(intent)
             }
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_reload, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_reload -> {
-                reloadItem()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun reloadItem() {
-        retrieveData()
     }
 
 }
